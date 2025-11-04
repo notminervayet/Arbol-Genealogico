@@ -1,40 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Arbol_1
 {
-    internal class Persona //Nodos del arbol (grafo) genealogico
+    internal class Persona
     {
-        string Nombre;
-        string Cedula;
-        DateTime FechaNacimiento;
-        DateTime? FechaFallecimiento;
-        string FotoPath;
-        double Latitud, Longitud;
-        List<Persona> Hijos;
-        Persona Padre, Madre;
-        void AgregarHijo(Persona hijo) //Anade un hijo a la lista de hijos
+        public string Nombre { get; set; }
+        public string Cedula { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public DateTime? FechaFallecimiento { get; set; }
+        public string FotoPath { get; set; }
+        public double Latitud { get; set; }
+        public double Longitud { get; set; }
+
+        public List<Persona> Hijos { get; set; }
+        public Persona Padre { get; private set; }
+        public Persona Madre { get; private set; }
+
+        public Persona(string nombre, string cedula, DateTime fechaNacimiento)
         {
-            if (Hijos == null)
-            {
-                Hijos = new List<Persona>();
-            }
+            Nombre = nombre;
+            Cedula = cedula;
+            FechaNacimiento = fechaNacimiento;
+            FechaFallecimiento = null;
+            FotoPath = null;
+            Latitud = 0;
+            Longitud = 0;
+            Hijos = new List<Persona>();
+        }
+        public void AgregarHijo(Persona hijo)
+        {
             Hijos.Add(hijo);
         }
-        void SetPadre(Persona padre) //Asigna el padre y anade este a la lista de hijos del padre
+
+        public void SetPadre(Persona padre)
         {
             Padre = padre;
             padre.AgregarHijo(this);
         }
 
-        void SetMadre(Persona madre) //Asigna la madre y anade esta a la lista de hijos de la madre
+        public void SetMadre(Persona madre)
         {
             Madre = madre;
             madre.AgregarHijo(this);
         }
-
+        public int CalcularEdad()
+        {
+            DateTime fechaFinal = FechaFallecimiento ?? DateTime.Now;
+            int edad = fechaFinal.Year - FechaNacimiento.Year;
+            if (fechaFinal < FechaNacimiento.AddYears(edad)) edad--;
+            return edad;
+        }
     }
 }
