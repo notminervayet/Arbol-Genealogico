@@ -3,53 +3,59 @@ using System.Collections.Generic;
 
 namespace Arbol_1
 {
-    internal class Persona
+    internal class Person
     {
-        public string Nombre { get; set; }
-        public string Cedula { get; set; }
-        public DateTime FechaNacimiento { get; set; }
-        public DateTime? FechaFallecimiento { get; set; }
-        public string FotoPath { get; set; }
-        public double Latitud { get; set; }
-        public double Longitud { get; set; }
+        private string name { get; set; }
+        private string id { get; set; }
+        private DateTime birthdate { get; set; }
+        private DateTime? deathDate { get; set; }
+        private string fotoPath { get; set; }
+        private List<Person> children { get; set; }
+        private Person[] parents { get; set; }
 
-        public List<Persona> Hijos { get; set; }
-        public Persona Padre { get; private set; }
-        public Persona Madre { get; private set; }
-
-        public Persona(string nombre, string cedula, DateTime fechaNacimiento)
+        public Person(string name, string id, DateTime birthdate) //Metodo constructor con informacion basica
         {
-            Nombre = nombre;
-            Cedula = cedula;
-            FechaNacimiento = fechaNacimiento;
-            FechaFallecimiento = null;
-            FotoPath = null;
-            Latitud = 0;
-            Longitud = 0;
-            Hijos = new List<Persona>();
+            this.name = name;
+            this.id = id;
+            this.birthdate = birthdate;
+            deathDate = null;
+            fotoPath = null;
+            children = new List<Person>();
+            parents = new Person[2]; //Maximo dos padres
         }
-        public void AgregarHijo(Persona hijo)
+        public void addChild(Person child) //Anade un hijo a la lista de hijos propia
         {
-            Hijos.Add(hijo);
+            if (child != null && !children.Contains(child))
+            {
+                children.Add(child);
+            }
         }
 
-        public void SetPadre(Persona padre)
+        public bool canAddParent()
         {
-            Padre = padre;
-            padre.AgregarHijo(this);
+            if (parents[0] == null || parents[1] == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public void SetMadre(Persona madre)
+        public void addParent(Person parent)
         {
-            Madre = madre;
-            madre.AgregarHijo(this);
-        }
-        public int CalcularEdad()
-        {
-            DateTime fechaFinal = FechaFallecimiento ?? DateTime.Now;
-            int edad = fechaFinal.Year - FechaNacimiento.Year;
-            if (fechaFinal < FechaNacimiento.AddYears(edad)) edad--;
-            return edad;
+            if (parent != null)
+            {
+                if (parents[0] == null)
+                {
+                    parents[0] = parent;
+                }
+                else if (parents[1] == null)
+                {
+                    parents[1] = parent;
+                }
+            }
         }
     }
 }

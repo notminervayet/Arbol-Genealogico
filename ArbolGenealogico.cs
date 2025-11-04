@@ -4,38 +4,42 @@ using Arbol_1;
 
 internal class GrafoGenealogico
 {
-    private Dictionary<Persona, List<Persona>> adyacencia;
+    private Dictionary<Person, List<Person>> adyacencia;
 
     public GrafoGenealogico() 
     {
-        adyacencia = new Dictionary<Persona, List<Persona>>();
+        adyacencia = new Dictionary<Person, List<Person>>();
     }
-
-    public void AgregarPersona(Persona p) //Anadir persona al grafo
+    public void addPerson(Person p) //Anadir persona al grafo
     {
         if (!adyacencia.ContainsKey(p))
-            adyacencia[p] = new List<Persona>();
+            adyacencia[p] = new List<Person>();
     }
 
-    public void Conectar(Persona padreOMadre, Persona hijo) //Conectar personas en el grafo
+    public void addChildren(Person father, Person child) //Arega un hijo a una persona ya existente
     {
-        AgregarPersona(padreOMadre);
-        AgregarPersona(hijo);
-        adyacencia[padreOMadre].Add(hijo);
+        father.addChild(child);
+        adyacencia[father].Add(father);
+    }
+    public void addFather(Person hijo, Person father) //Agrega un padre a una persona ya existente
+    {
+        if (hijo.canAddParent())
+        {
+            hijo.addParent(father);
+            father.addChild(hijo);
+            adyacencia[father].Add(hijo);
+        }
     }
 
-    public List<Persona> ObtenerHijos(Persona p) //Obtener la lista de hijos de una persona
+    public void deletePerson(Person p) //Eliminar persona del grafo
     {
-        return adyacencia.ContainsKey(p) ? adyacencia[p] : new List<Persona>();
-    }
-
-    public void MostrarDescendencia(Persona p, int nivel = 0) //Mostrar en consola la descendencia de una persona
-    {
-        Console.WriteLine($"{new string(' ', nivel * 2)}- {p.Nombre}");
         if (adyacencia.ContainsKey(p))
         {
-            foreach (var hijo in adyacencia[p])
-                MostrarDescendencia(hijo, nivel + 1);
+            adyacencia.Remove(p);
+            foreach (var key in adyacencia.Keys)
+            {
+                adyacencia[key].Remove(p);
+            }
         }
     }
 }
