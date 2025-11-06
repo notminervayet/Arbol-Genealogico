@@ -12,6 +12,8 @@ namespace Arbol_1
         public string fotoPath { get; set; }
         private List<Person> children { get; set; }
         private Person[] parents { get; set; }
+        public int x { get; set; } //Coordenada x para graficar
+        public int y { get; set; } //Coordenada y para graficar
 
         public Person(string name, string id, DateTime birthdate, string photoPath) //Metodo constructor con informacion basica, para un familiar vivo
         {
@@ -37,7 +39,8 @@ namespace Arbol_1
 
         public void AddChild(Person child) //Anade un hijo a la lista de hijos propia
         {
-            if (children == null) {
+            if (children == null)
+            {
                 return;
             }
             if (child != null && !children.Contains(child))
@@ -96,5 +99,10 @@ namespace Arbol_1
         }
 
         public Person[] Parents => parents;
+
+        public string GetName
+        {
+            get => name;
+        }
     }
 }
