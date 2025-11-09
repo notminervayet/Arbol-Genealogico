@@ -14,8 +14,10 @@ namespace Arbol_1
         private Person[] parents { get; set; }
         public int x { get; set; } //Coordenada x para graficar
         public int y { get; set; } //Coordenada y para graficar
+        public double Latitud { get; set; }
+        public double Longitud { get; set; }
 
-        public Person(string name, string id, DateTime birthdate, string photoPath) //Metodo constructor con informacion basica, para un familiar vivo
+        public Person(string name, string id, DateTime birthdate, string photoPath, double lat, double lng) //Metodo constructor con informacion basica, para un familiar vivo
         {
             this.name = name;
             this.id = id;
@@ -24,6 +26,8 @@ namespace Arbol_1
             this.fotoPath = photoPath;
             children = new List<Person>();
             parents = new Person[2]; //Maximo dos padres
+            this.Latitud = lat;
+            this.Longitud = lng;
         }
 
         public Person(string name, string id, DateTime birthdate, string photoPath, DateTime deathDate) //Metodo constructor con informacion basica, para un familiar fallecido
