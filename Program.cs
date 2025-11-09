@@ -16,7 +16,7 @@ namespace Arbol_1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Mapa());
+            Application.Run(new Form1());
         }
     }
 }
