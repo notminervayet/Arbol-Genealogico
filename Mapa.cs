@@ -16,7 +16,7 @@ namespace Arbol_1
             InicializarMapa();
         }
 
-        private void InicializarMapa()
+        private void InicializarMapa() //Inicializa el mapa con un marcador de prueba
         {
             
             // Crear mapa
